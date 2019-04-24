@@ -1,4 +1,4 @@
-include <iostream>
+#include <iostream>
 using namespace std;
 
 class TreeNode
@@ -7,7 +7,7 @@ class TreeNode
         TreeNode();
         TreeNode(int key);
         virtual ~TreeNode(); //why is it virtual...bc recursion?
-    private:
+
         int key;
         TreeNode *left;
         TreeNode *right;
@@ -27,7 +27,7 @@ TreeNode::TreeNode(int k)
     key = k;
 }
 
-virtual TreeNode::~TreeNode()
+TreeNode::~TreeNode()
 {
     //figure it out
 }

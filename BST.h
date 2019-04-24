@@ -1,9 +1,13 @@
+#include <iostream>
+#include "TreeNode.h"
+using namespace std;
+
 class BST
 {
     public:
         BST();
         virtual ~BST();
-        void insert(int value)
+        void insert(int value);
         bool contains(int value); //aka search
         bool deleteR(int k);
         TreeNode* getSuccessor(TreeNode* d);
@@ -21,7 +25,7 @@ class BST
 
 BST::BST()
 {
-    root = NULL:
+    root = NULL;
 }
 
 BST::~BST()
@@ -104,7 +108,7 @@ bool BST::contains(int value)
     while(current->key != value)
     {
         if(value < current->key)
-            current = curent->left;
+            current = current->left;
         else
             current = current->right;
 
@@ -114,7 +118,7 @@ bool BST::contains(int value)
     return true;
 }
 
-bool BST:deleteR(int k)
+bool BST::deleteR(int k)
 {
     if(isEmpty())
         return false;
@@ -128,9 +132,9 @@ bool BST:deleteR(int k)
     bool isLeft = true;
 
     //now lets iterate and update our pointers
-    while(current-> != k)
+    while(current->key != k)
     {
-        parrent = current;
+        parent = current;
 
         if(k < current->key)
         {
@@ -140,7 +144,7 @@ bool BST:deleteR(int k)
         else
         {
             isLeft = false;
-            current = current->right
+            current = current->right;
         }
         if(current == NULL)
             return false;
@@ -149,7 +153,7 @@ bool BST:deleteR(int k)
 
     if(current->left == NULL && current->right == NULL)//leaf node no children
     {
-        if(curent == root)
+        if(current == root)
             root = NULL;
 
         else if (isLeft)
@@ -206,7 +210,7 @@ bool BST:deleteR(int k)
 
         successor->left = current->left;
     }
-    delete d;
+    delete current;
 
     return true;
 
@@ -216,18 +220,18 @@ bool BST:deleteR(int k)
 TreeNode* BST::getSuccessor(TreeNode *d)
 {
     TreeNode *sp = d; //sucessor's parent
-    TreeNode *sucessor = d;
+    TreeNode *successor = d;
     TreeNode *current = d->right;
 
     while(current != NULL)
     {
         sp = successor;
-        sucessor = current;
+        successor = current;
         current = current->left;
     }
 
     //we need to check if successor is a descendant of right child
-    if(sucsessor != d->right)
+    if(successor != d->right)
     {
         sp->left = successor->right;
         successor->right = d->right;
@@ -235,12 +239,40 @@ TreeNode* BST::getSuccessor(TreeNode *d)
     return successor;
 }
 
-TreeNode* BST::getMin();
+TreeNode* BST::getMin()
 {
+    TreeNode *node = root;
+    TreeNode *prev = NULL;
 
+    if(isEmpty())
+    {
+        cout<<"The BST is empty"<<endl;
+        return prev;
+    }
+
+    while(node != NULL)
+    {
+        prev = node;
+        node = node->left;
+    }
+    return prev;
 }
 
-TreeNode* BST::getMax();
+TreeNode* BST::getMax()
 {
+    TreeNode *node = root;
+    TreeNode *prev = NULL;
 
+    if(isEmpty())
+    {
+        cout<<"The BST is empty"<<endl;
+        return(prev);
+    }
+
+    while(node != NULL)
+    {
+        prev = node;
+        node = node->left;
+    }
+    return prev;
 }
