@@ -3,7 +3,6 @@ using namespace std;
 
 
 //need to templatetize TreeNode to hold a value of type T
-template <typename T>
 class TreeNode
 {
     public:
@@ -12,31 +11,27 @@ class TreeNode
         virtual ~TreeNode(); //why is it virtual...bc recursion?
 
         int key;
-        T data; //will hold a student or faculty
         TreeNode *left;
         TreeNode *right;
 };
 
 /////implementation//////
-template <typename T>
-TreeNode<T>::TreeNode()
+TreeNode::TreeNode()
 {
     left = NULL;
     right = NULL;
-    data = NULL;
 }
 
-template <typename T>
-TreeNode<T>::TreeNode(int k)
+
+TreeNode::TreeNode(int k)
 {
     left = NULL;
     right = NULL;
     key = k;
-    data = NULL;
 }
 
-template <typename T>
-TreeNode<T>::~TreeNode()
+
+TreeNode::~TreeNode()
 {
     //figure it out
 }

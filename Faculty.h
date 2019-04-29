@@ -22,6 +22,7 @@ class Faculty: public Person
     private:
         string level;
         int* advisees;
+        int sizeAdv;
         int numAdv; //keeps track of num advisees
 };
 

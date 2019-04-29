@@ -2,7 +2,7 @@
 #define STUDENT_H
 
 #include <iostream>
-#include "Person.h"
+#include "Person.cpp"
 using namespace std;
 
 class Student: public Person

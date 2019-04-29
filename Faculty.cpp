@@ -6,6 +6,7 @@ inline Faculty::Faculty():Person()
 {
     level = "";
     advisees = new int[10];
+    sizeAdv = 10;
     numAdv = 0;
 }
 
@@ -13,12 +14,13 @@ inline Faculty::Faculty(int i, string n, string s, string l):Person(i,n,s)
 {
     level = l;
     advisees = new int[10];
+    sizeAdv = 10;
     numAdv = 0;
 }
 
 inline Faculty::~Faculty()
 {
-    //delete advisees;
+    delete [] advisees;
 }
 
 inline string Faculty::getLevel()
@@ -39,11 +41,12 @@ inline int* Faculty::getAdvisees()
 inline void Faculty::addAdvisee(int a)
 {
     //check if advisees is full
-    if(numAdv == advisees.size())
+    if(numAdv == sizeAdv)
     {
-        int size = advisees.size();
+        int size = sizeAdv;
         //make larger array
-        int* temp = new int[size+5]; //temporary pointer to a new array
+        int* temp = new int[sizeAdv+5]; //temporary pointer to a new array
+        sizeAdv += 5;
         //copy all over
         for(int x = 0; x<size; x++)
         {
@@ -66,6 +69,8 @@ inline void Faculty::addAdvisee(int a)
 inline bool Faculty::removeAdvisee(int a)
 {
     //check if advisees is empty
+    if(numAdv == 0)
+        return false;
 
     //check if advisees student is in advisee
         //delete advisee from list

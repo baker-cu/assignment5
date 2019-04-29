@@ -1,45 +1,51 @@
 #include <iostream>
-#include "TreeNode.h"
+#include "TempTreeNode.h"
 using namespace std;
 
+template <typename T>
 class BST
 {
     public:
         BST();
         virtual ~BST();
-        void insert(int value);
+        void insert(T p);
         bool contains(int value); //aka search
         bool deleteR(int k);
-        TreeNode* getSuccessor(TreeNode* d);
+        T get(int value);
+        TempTreeNode<T>* getSuccessor(TempTreeNode<T>* d);
 
-        TreeNode* getMin();
-        TreeNode* getMax();
+        TempTreeNode<T>* getMin();
+        TempTreeNode<T>* getMax();
         bool isEmpty();
         void printTree();
-        void recPrint(TreeNode *node);
+        void recPrint(TempTreeNode<T> *node);
 
     private:
-        TreeNode *root;
+        TempTreeNode<T> *root;
 
 };
 
-BST::BST()
+template <typename T>
+BST<T>::BST()
 {
     root = NULL;
 }
 
-BST::~BST()
+template <typename T>
+BST<T>::~BST()
 {
     //iterate and delete
     //figure out
 }
 
-void BST::printTree()
+template <typename T>
+void BST<T>::printTree()
 {
     recPrint(root);
 }
 
-void BST::recPrint(TreeNode *node)
+template <typename T>
+void BST<T>::recPrint(TempTreeNode<T> *node)
 {
     if(node == NULL)
         return;
@@ -49,8 +55,10 @@ void BST::recPrint(TreeNode *node)
     recPrint(node->right);
 }
 
-void BST::insert(int value)
+template <typename T>
+void BST<T>::insert(T p)
 {
+    int value = p.getID();
     //check if the tree is empty
     //check if value exists, if not continue
     if(contains(value))
@@ -58,7 +66,8 @@ void BST::insert(int value)
         cout<<"Tree already contains this key"<<endl;
         return;
     }
-    TreeNode *node = new TreeNode(value);
+    TempTreeNode<T> *node = new TempTreeNode<T>(value);//node to be inserted
+    node->data = p;
 
     if(isEmpty())//empty tree
     {
@@ -66,8 +75,8 @@ void BST::insert(int value)
     }
     else//not an empty tree...continue to add
     {
-        TreeNode *current = root;
-        TreeNode *parent; //empty TreeNode
+        TempTreeNode<T> *current = root;
+        TempTreeNode<T> *parent; //empty TempTreeNode
 
         while(true)//lets look for our inserstion point
         {
@@ -94,17 +103,19 @@ void BST::insert(int value)
     }
 }
 
-bool BST::isEmpty()
+template <typename T>
+bool BST<T>::isEmpty()
 {
     return(root == NULL);
 }
 
-bool BST::contains(int value)
+template <typename T>
+bool BST<T>::contains(int value)
 {
     if(isEmpty())//empty tree nothing exists
         return false;
 
-    TreeNode *current = root;
+    TempTreeNode<T> *current = root;
     while(current->key != value)
     {
         if(value < current->key)
@@ -118,7 +129,8 @@ bool BST::contains(int value)
     return true;
 }
 
-bool BST::deleteR(int k)
+template <typename T>
+inline bool BST<T>::deleteR(int k)
 {
     if(isEmpty())
         return false;
@@ -127,8 +139,8 @@ bool BST::deleteR(int k)
     if(!contains(k))
         return false;
 
-    TreeNode *current = root;
-    TreeNode *parent = root;
+    TempTreeNode<T> *current = root;
+    TempTreeNode<T> *parent = root;
     bool isLeft = true;
 
     //now lets iterate and update our pointers
@@ -199,7 +211,7 @@ bool BST::deleteR(int k)
     else //the node to be delted has two children
     {
         //find the successor of the node to be deleted
-        TreeNode *successor = getSuccessor(current);
+        TempTreeNode<T> *successor = getSuccessor(current);
 
         if(current = root)
             root = successor;
@@ -217,11 +229,12 @@ bool BST::deleteR(int k)
 
 }
 
-TreeNode* BST::getSuccessor(TreeNode *d)
+template <typename T>
+inline TempTreeNode<T>* BST<T>::getSuccessor(TempTreeNode<T> *d)
 {
-    TreeNode *sp = d; //sucessor's parent
-    TreeNode *successor = d;
-    TreeNode *current = d->right;
+    TempTreeNode<T> *sp = d; //sucessor's parent
+    TempTreeNode<T> *successor = d;
+    TempTreeNode<T> *current = d->right;
 
     while(current != NULL)
     {
@@ -239,10 +252,11 @@ TreeNode* BST::getSuccessor(TreeNode *d)
     return successor;
 }
 
-TreeNode* BST::getMin()
+template <typename T>
+inline TempTreeNode<T>* BST<T>::getMin()
 {
-    TreeNode *node = root;
-    TreeNode *prev = NULL;
+    TempTreeNode<T> *node = root;
+    TempTreeNode<T> *prev = NULL;
 
     if(isEmpty())
     {
@@ -258,10 +272,11 @@ TreeNode* BST::getMin()
     return prev;
 }
 
-TreeNode* BST::getMax()
+template <typename T>
+inline TempTreeNode<T>* BST<T>::getMax()
 {
-    TreeNode *node = root;
-    TreeNode *prev = NULL;
+    TempTreeNode<T> *node = root;
+    TempTreeNode<T> *prev = NULL;
 
     if(isEmpty())
     {
@@ -275,4 +290,24 @@ TreeNode* BST::getMax()
         node = node->left;
     }
     return prev;
+}
+
+template <typename T>
+inline T BST<T>::get(int value)
+{
+    if(isEmpty())//empty tree nothing exists
+        throw string("BST is empty");
+
+    TempTreeNode<T> *current = root;
+    while(current->key != value)
+    {
+        if(value < current->key)
+            current = current->left;
+        else
+            current = current->right;
+
+        if(current == NULL) //item not in tree
+            throw string("ID was not found");
+    }
+    return (current->data);
 }
