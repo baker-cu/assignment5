@@ -1,4 +1,8 @@
+#ifndef BST_H
+#define BST_H
+
 #include <iostream>
+#include <stdio.h>
 #include "TempTreeNode.h"
 using namespace std;
 
@@ -7,7 +11,9 @@ class BST
 {
     public:
         BST();
-        virtual ~BST();
+        BST(const BST<T> &original);
+        //virtual ~BST();
+        //void recDelete(TempTreeNode<T>* d);
         void insert(T p);
         bool contains(int value); //aka search
         bool deleteR(int k);
@@ -19,11 +25,15 @@ class BST
         bool isEmpty();
         void printTree();
         void recPrint(TempTreeNode<T> *node);
+        TempTreeNode<T>* treeCopy(const TempTreeNode<T>* original);
 
-    private:
+        void serialize(TempTreeNode<T>* r, FILE *fP);
+        void deSerialize(TempTreeNode<T>*& r, FILE *fP);
+
         TempTreeNode<T> *root;
-
 };
+
+#define MARKER -1
 
 template <typename T>
 BST<T>::BST()
@@ -31,11 +41,43 @@ BST<T>::BST()
     root = NULL;
 }
 
-template <typename T>
+/*template <typename T>
 BST<T>::~BST()
 {
-    //iterate and delete
-    //figure out
+    recDelete(root);
+}
+
+template <typename T>
+void BST<T>::recDelete(TempTreeNode<T>* d)
+{
+    if(d)
+    {
+        recDelete(d->left);
+        recDelete(d->right);
+        delete d;
+    }
+}*/
+
+template <typename T>
+BST<T>::BST(const BST<T> &original)
+{
+    root = treeCopy(original.root);
+}
+
+template <typename T>
+TempTreeNode<T>* BST<T>::treeCopy(const TempTreeNode<T>* original)
+{
+    if(original == NULL)
+        return NULL;
+    else
+    {
+        TempTreeNode<T> *copyNode = new TempTreeNode<T>();
+        copyNode->key = original->key;
+        copyNode->data = original->data;
+        copyNode->left = treeCopy(original->left);
+        copyNode->right = treeCopy(original->right);
+        return copyNode;
+    }
 }
 
 template <typename T>
@@ -311,3 +353,31 @@ inline T BST<T>::get(int value)
     }
     return (current->data);
 }
+
+template <typename T>
+inline void BST<T>::serialize(TempTreeNode<T>* r, FILE *fp)
+{
+    if(r == NULL)
+    {
+        fprintf(fp, "%d ", MARKER);
+        return;
+    }
+
+    fprintf(fp, "%d ", r->key);
+    serialize(r->left, fp);
+    serialize(r->right, fp);
+}
+
+template <typename T>
+inline void BST<T>::deSerialize(TempTreeNode<T>*& r, FILE *fp)
+{
+    int val;
+    if(!fscanf(fp, "%d ", &val) || val == MARKER)
+        return;
+
+    root = new TempTreeNode<T>(val);
+    deSerialize(r->left, fp);
+    deSerialize(r->right, fp);
+}
+
+#endif

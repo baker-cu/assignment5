@@ -9,7 +9,7 @@ class TempTreeNode
     public:
         TempTreeNode();
         TempTreeNode(int key);
-        virtual ~TempTreeNode(); //why is it virtual...bc recursion?
+        //virtual ~TempTreeNode(); //why is it virtual...bc recursion?
 
         int key;
         T data; //will hold a student or faculty
@@ -33,8 +33,8 @@ inline TempTreeNode<T>::TempTreeNode(int k)
     key = k;
 }
 
-template <typename T>
+/*template <typename T>
 inline TempTreeNode<T>::~TempTreeNode()
 {
     //figure it out
-}
+}*/

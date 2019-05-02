@@ -1,3 +1,6 @@
+#ifndef FACULTY_C
+#define FACULTY_C
+
 #include <iostream>
 #include "Faculty.h"
 using namespace std;
@@ -18,10 +21,10 @@ inline Faculty::Faculty(int i, string n, string s, string l):Person(i,n,s)
     numAdv = 0;
 }
 
-inline Faculty::~Faculty()
+/*inline Faculty::~Faculty()
 {
     delete [] advisees;
-}
+}*/
 
 inline string Faculty::getLevel()
 {
@@ -80,3 +83,10 @@ inline bool Faculty::removeAdvisee(int a)
 
     numAdv--;
 }
+
+inline int Faculty::getSizeAdv()
+{
+    return sizeAdv;
+}
+
+#endif
