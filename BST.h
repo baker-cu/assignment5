@@ -337,8 +337,8 @@ inline TempTreeNode<T>* BST<T>::getMax()
 template <typename T>
 inline T BST<T>::get(int value)
 {
-    if(isEmpty())//empty tree nothing exists
-        throw string("BST is empty");
+    if(isEmpty()==true)//empty tree nothing exists
+        cout<<"BST is empty"<<endl;
 
     TempTreeNode<T> *current = root;
     while(current->key != value)
@@ -349,7 +349,7 @@ inline T BST<T>::get(int value)
             current = current->right;
 
         if(current == NULL) //item not in tree
-            throw string("ID was not found");
+            cout<<"ID was not found"<<endl;
     }
     return (current->data);
 }

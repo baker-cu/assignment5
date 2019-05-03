@@ -14,6 +14,8 @@ class FacBST: public BST<Faculty>
 
         void serialize(TempTreeNode<Faculty>* r, FILE *fp);
         void deSerialize(TempTreeNode<Faculty>*& r, FILE *fp);
+
+        Faculty get(int value);
 };
 
 inline FacBST::FacBST():BST()
@@ -69,4 +71,24 @@ inline void FacBST::deSerialize(TempTreeNode<Faculty>*& r, FILE *fp)
     root = new TempTreeNode<Faculty>(val);
     deSerialize(r->left, fp);
     deSerialize(r->right, fp);
+}
+
+inline Faculty FacBST::get(int value)
+{
+    if(isEmpty()==true)//empty tree nothing exists
+        cout<<"BST is empty"<<endl;
+
+    TempTreeNode<Faculty> *current = root;
+    while(current->key != value)
+    {
+        if(value < current->key)
+            current = current->left;
+        else
+            current = current->right;
+
+        if(current == NULL) //item not in tree
+            cout<<"ID was not found"<<endl;
+            break;
+    }
+    return (current->data);
 }

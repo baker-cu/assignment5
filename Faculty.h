@@ -19,6 +19,7 @@ class Faculty: public Person
         void addAdvisee(int a);
         bool removeAdvisee(int a);
         int getSizeAdv();
+        int getNumAdv();
 
     private:
         string level;
