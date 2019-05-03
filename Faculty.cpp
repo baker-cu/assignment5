@@ -76,10 +76,21 @@ inline bool Faculty::removeAdvisee(int a)
         return false;
 
     //check if advisees student is in advisee
+    int temp[sizeAdv];
+    for(int x = -1; x<numAdv; x++)
+    {
         //delete advisee from list
-        return true;
-    //else
-        return false;
+        if (advisees[x] == a)//x=index of int to delete
+
+            for(int y = -1; y<sizeAdv+1; y++)
+            {
+                if(y==x)
+                    y++;
+                temp[y] = advisees[y];
+            }
+            return true;
+    }
+    return false;
 
     numAdv--;
 }
@@ -87,6 +98,11 @@ inline bool Faculty::removeAdvisee(int a)
 inline int Faculty::getSizeAdv()
 {
     return sizeAdv;
+}
+
+inline int Faculty::getNumAdv()
+{
+    return numAdv;
 }
 
 #endif

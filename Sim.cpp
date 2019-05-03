@@ -41,6 +41,8 @@ inline Sim::Sim()
 
 }*/
 
+
+//---------------------------------------1----------------------------------------
 inline void Sim::printStu()
 {
     if(masterStudent.isEmpty() == true)
@@ -49,15 +51,16 @@ inline void Sim::printStu()
         masterStudent.printAll();
 }
 
+//--------------------------------------2-----------------------------------------
 inline void Sim::printFac()
 {
-    //if(masterFaculty.isEmpty() == true)
-        //cout<<"There is no faculty in the database"<<endl;
-    //else
-    cout<<"Adding to fac"<<endl;    
-    masterFaculty.printAll();
+    if(masterFaculty.isEmpty() == true)
+        cout<<"There is no faculty in the database"<<endl;
+    else
+        masterFaculty.printAll();
 }
 
+//-------------------------------------3-------------------------------------------
 inline void Sim::dispStu(int id)
 {
     if(masterStudent.contains(id))
@@ -73,8 +76,11 @@ inline void Sim::dispStu(int id)
         cout<<"The student ID you have entered does not exist"<<endl;
 }
 
+
+//----------------------------------------4----------------------------------------
 inline void Sim::dispFac(int id)
 {
+    cout<<"Checking for ID#: "<<id<<endl;
     if(masterFaculty.contains(id))
     {
         Faculty fac = masterFaculty.get(id);
@@ -86,6 +92,7 @@ inline void Sim::dispFac(int id)
         cout<<"The faculty ID you have entered does not exist"<<endl;
 }
 
+//----------------------------------------5-----------------------------------------
 inline void Sim::stuFacInfo(int id)
 {
     if(masterStudent.contains(id))
@@ -98,30 +105,35 @@ inline void Sim::stuFacInfo(int id)
         cout<<"The student ID you have entered does not exists"<<endl;
 }
 
+//---------------------HELP----------------------6--------------------------------------
 inline void Sim::facStuInfo(int id)
 {
     if(masterFaculty.contains(id))
     {
         Faculty fac = masterFaculty.get(id);
         int *ads = fac.getAdvisees();
-        int size = fac.getSizeAdv();
+        int size = fac.getNumAdv();
 
-        for(int x = 0; x<size; x++)
+        for(int x = -1; x<size; x++)
         {
-            dispStu(ads[x]);
+            int stuID = ads[x];
+            if(stuID == 0)
+                break;
+            dispStu(stuID);
+            cout<<endl;
         }
     }
     else
         cout<<"The faculty ID you have entered does not exist"<<endl;
 }
 
-//---------------------------------------------------------------------------------------
+//-----------------------------------------7----------------------------------------------
 
 inline void Sim::addStu(int i, string n, string l, string s, double g, int a)
 {
-    if(masterStudent.contains(i))
+    if(masterStudent.contains(i)==true)
         cout<<"The student ID you have entered already exists"<<endl;
-    else if(masterFaculty.contains(i))
+    else if(masterFaculty.contains(i)==true)
     {
         undoCount++;
         StuBST sorigin(masterStudent);
@@ -131,11 +143,16 @@ inline void Sim::addStu(int i, string n, string l, string s, double g, int a)
 
         Student newStu(i,n,l,s,g,a);
         masterStudent.insert(newStu);
+
+        //add new student to its respective faculty advisee list
+        Faculty tempFac = masterFaculty.get(a);
+        tempFac.addAdvisee(i);
     }
     else
         cout<<"The faculty ID you have entered does not exitst"<<endl;
 }
 
+//-------------------------------------------8------------------------------------------
 inline void Sim::deleteStu(int id)
 {
     undoCount++;
@@ -150,6 +167,8 @@ inline void Sim::deleteStu(int id)
 
 }
 
+
+//---------------------------------------------9--------------------------------------------
 inline void Sim::addFac(int i, string n, string s, string l)
 {
     if(masterFaculty.contains(i))
@@ -167,6 +186,7 @@ inline void Sim::addFac(int i, string n, string s, string l)
     }
 }
 
+//-----------------------------------------------10--------------------------------------
 inline void Sim::deleteFac(int id)
 {
     if(masterFaculty.contains(id) == false)
@@ -196,6 +216,7 @@ inline void Sim::deleteFac(int id)
     }
 }
 
+//------------------------------------------------------11---------------------------------
 inline void Sim::changeAdvisor(int stuID, int facID)
 {
     if(masterFaculty.contains(facID)==true && masterStudent.contains(stuID)==true)
@@ -227,6 +248,7 @@ inline void Sim::changeAdvisor(int stuID, int facID)
         cout<<"The student ID you have enterd does not exists"<<endl;
 }
 
+//-----------------------------------------------------12------------------------------------
 inline void Sim::removeAd(int facID, int stuID)
 {
     if(masterFaculty.contains(facID)==true && masterStudent.contains(stuID)==true)
@@ -251,7 +273,7 @@ inline void Sim::removeAd(int facID, int stuID)
         cout<<"The student ID you ented does not exist"<<endl;
 }
 
-//------------------------------------------------------------------------------------
+//-----------------------------------------13-------------------------------------------
 
 inline void Sim::undo()
 {
@@ -268,6 +290,7 @@ inline void Sim::undo()
     }
 }
 
+//-----------------------------------------------14----------------------------------------
 inline void Sim::exit()
 {
     FILE *fp = fopen("studentTable.txt", "w");

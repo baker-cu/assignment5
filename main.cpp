@@ -6,11 +6,11 @@ using namespace std;
 
 int main()
 {
+    Sim simulation = Sim();
+    int e = 0;
+
     while(true)
     {
-        Sim simulation = Sim();
-        int e = 0;
-
         int id;
         string n;
         string l;
@@ -20,6 +20,7 @@ int main()
         int fid;
 
         int choice;
+        cout<<endl;
         cout<<"1. Print all students and their information (sorted by ascending id #)"<<endl;
         cout<<"2. Print all faculty and their information (sorted by ascending id #)"<<endl;
         cout<<"3. Find and display student information given the students id"<<endl;
@@ -37,12 +38,15 @@ int main()
 
         cout<<"Enter the number of the action you would like to do: "<<endl;
         cin>>choice;
+        cout<<endl;
 
         switch (choice)
         {
             case 1:simulation.printStu();
+                   break;
 
             case 2:simulation.printFac();
+                   break;
 
             case 3:cout<<"Enter the ID# of the student: "<<endl;
                    cin>>id;
@@ -76,6 +80,7 @@ int main()
                    cin>>g;
                    cout<<"Enter the advisor ID#: "<<endl;
                    cin>>a;
+                   cout<<"You are adding: "<<id<<" "<<n<<" "<<l<<" "<<s<<" "<<g<<" "<<a<<endl;
                    simulation.addStu(id,n,l,s,g,a);
                    break;
 
@@ -92,6 +97,7 @@ int main()
                    cin>>s;
                    cout<<"Enter the faculty member's level: "<<endl;
                    cin>>l;
+                   cout<<"You are adding: "<<id<<" "<<n<<" "<<s<<" "<<l<<endl;
                    simulation.addFac(id,n,s,l);
                    break;
 
